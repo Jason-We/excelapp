@@ -1,0 +1,24 @@
+spring:
+#####spring-security 设置默认值
+  security:
+    user:
+      name: user
+      password: password
+######时间日期设置
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+  devtools:
+    restart:
+      enabled: true
+  datasource:
+    #driver-class-name: com.mysql.jdbc.Driver   springboot自动配置
+    url: jdbc:mysql://localhost:3306/poj1?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8    #这里serverTimezone必须配置，否则报错
+    username: root
+    password: WEINAI
+server:
+  port: 8088
+
+
