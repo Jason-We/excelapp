@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!--TODO 日志生成文件路径配置不生效-->
-    <!-- 属性文件:在properties文件中找到对应的配置项 -->
-    <springProperty scope="context" name="logging.path"  source="logging.path"/>
 
     <!-- 文件输出格式 -->
     <property name="PATTERN" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c [%L] -| %msg%n" />
-    <!-- test文件路径 -->
-    <property name="TEST_FILE_PATH" value="./logs/" />
-    <!-- produce文件路径 -->
+
+    <!-- 生产环境 日志文件路径  一般为linux服务器 -->
     <property name="PRO_FILE_PATH" value="/opt/share/logs" />
 
     <!-- 每天产生一个文件 -->
-    <appender name="TEST-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="LOG-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<Prudent>true</Prudent>-->
         <!-- 文件路径 -->
-        <file>${logging.path}</file>
+        <!--<file>${logging.path}</file>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 文件名称 -->
-            <fileNamePattern>${logging.path}/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 文件名称 这里默认直接在项目文件夹下创建devLogs目录， 并生成info.xxxx日志文件-->
+            <fileNamePattern>devLogs/info.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
 
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -35,36 +31,17 @@
                 <pattern>${PATTERN}</pattern>
             </encoder>
         </appender>
-
-
-        <!--<logger name="com.roncoo.education" level="debug"/>-->
-
         <root level="info">
             <appender-ref ref="CONSOLE" />
-            <appender-ref ref="TEST-FILE" />
+            <appender-ref ref="LOG-FILE" />
         </root>
     </springProfile>
 
 
-    <!-- 测试环境 -->
+    <!-- 测试环境   一般不用-->
     <springProfile name="test">
-        <!--&lt;!&ndash; 每天产生一个文件 &ndash;&gt;-->
-        <!--<appender name="TEST-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
-            <!--&lt;!&ndash;<Prudent>true</Prudent>&ndash;&gt;-->
-            <!--&lt;!&ndash; 文件路径 &ndash;&gt;-->
-            <!--<file>${TEST_FILE_PATH}</file>-->
-            <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
-                <!--&lt;!&ndash; 文件名称 &ndash;&gt;-->
-                <!--<fileNamePattern>${TEST_FILE_PATH}/info.%d{yyyy-MM-dd}.log</fileNamePattern>-->
-            <!--</rollingPolicy>-->
-
-            <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
-                <!--<pattern>${PATTERN}</pattern>-->
-            <!--</layout>-->
-        <!--</appender>-->
-
         <root level="info">
-            <appender-ref ref="TEST-FILE" />
+            <appender-ref ref="LOG-FILE" />
         </root>
     </springProfile>
 
@@ -72,7 +49,7 @@
     <springProfile name="prod">
         <appender name="PROD_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <!--<Prudent>true</Prudent>-->
-            <file>${PRO_FILE_PATH}</file>
+            <!--<file>${PRO_FILE_PATH}</file>-->
             <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
                 <fileNamePattern>${PRO_FILE_PATH}/warn.%d{yyyy-MM-dd}.log</fileNamePattern>
             </rollingPolicy>
