@@ -28,11 +28,9 @@ public class UserService implements UserMapper{
         //todo  在此处做数据校验
         if(userMapper.addUser(name,sex,phone,others) == 1){
             log.warn("添加用户成功，姓名:{},性别:{},电话:{},其他:{}",name,sex,phone,others);
-            //System.out.println("添加用户成功！"+name+"--"+sex+"--"+phone+"--"+others);
             return 1;
         }else{
             log.error("添加用户失败！");
-            //System.out.println("添加用户失败");
             return 0;
         }
 
@@ -59,11 +57,11 @@ public class UserService implements UserMapper{
 
     @Override
     public int deleteByName(String name) {
-        if(userMapper.deleteByName(name) == 1){
-            System.out.println("删除用户成功！"+"--"+name);
+        if(userMapper.deleteByName(name) != 0){
+            log.warn("删除用户成功，用户名:{}",name);
             return 1;
         }else{
-            System.out.println("删除用户失败！"+"--"+name);
+            log.error("删除用户失败，用户名：{}",name);
             return 0;
         }
     }
